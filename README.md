@@ -26,6 +26,6 @@ These goals are subject to change as the project progresses and are not required
   - Gold surplus / deficit
     - compares gold and item count to lane opponent
   - "Inting" / "Feeding"
-    - Higher kill to death ratio compared to team
+    - Higher deaths to kills ratio compared to team
     - Low creep score
     - Bad champion matchup (refers to databsae from third party or in-house)
