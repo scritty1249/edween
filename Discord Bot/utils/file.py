@@ -1,4 +1,4 @@
-# This module intereacts with the local filesystem
+"""This module intereacts with the local filesystem"""
 
 from os import path
 import json

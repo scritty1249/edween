@@ -1,7 +1,8 @@
 import discord
+from utils import file
 
 command = "something"
-token = getDiscordToken()
+token = file.getDiscordToken()
 
 client = discord.Client()
 @client.event
