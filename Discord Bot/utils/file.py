@@ -52,3 +52,21 @@ def getRiotKey(target_path = path.join(CWD, "token-keys.json")) -> str:
     validateTokenKeyFile(target_path)
     with open(target_path) as tokenFile:
         return json.load(tokenFile)[TOKEN_KEY_FILE_FIELDS["riot"]]
+    
+def getConfig(target_path = path.join(CWD, "Discord Bot", "config.json")) -> dict:
+    """Gets the configuration file variables.
+
+    Args:
+        target_path (str, optional): Path to configuration JSON file. Defaults to "/Discord Bot/config.json".
+
+    Raises:
+        Exception: Invalid file path, file does not exist.
+
+    Returns:
+        dict: A JSON object representing the configuration file.
+    """
+    if path.exists(target_path):
+        with open(target_path) as configFile:
+            return json.load(configFile)
+    else:
+        raise Exception("Invalid token-key file path: \"%s\" does not exist" % target_path)
