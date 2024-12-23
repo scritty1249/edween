@@ -20,12 +20,12 @@ def getAccountInfo(summoner_name = None, tag_Line = None, region = None):
         summoner_name = input("Summoner Name: ").casefold()
     elif not tag_Line:
         tag_Line = input("Tag Line: ")
-    params = {
+    headers = {
         "X-Riot-Token" : file.getRiotKey()
     }
     api_url = f"https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}/{tag_Line}"
     try:
-        response = requests.get(api_url, params=urlencode(params))
+        response = requests.get(api_url, headers=headers)
         response.raise_for_status()
         return response.json()
     except Exception as e:
