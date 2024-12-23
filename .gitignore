@@ -1,4 +1,4 @@
 !.gitignore
-.vscode
 token-keys.json
-__pycache__
+.*
+_*
