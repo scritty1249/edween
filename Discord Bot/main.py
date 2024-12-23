@@ -8,7 +8,6 @@ configs = file.getConfig()
 testingConfigs = configs["testing"] if "testing" in configs.keys() else None
 
 token = file.getDiscordKey()
-
 intents = discord.Intents.default()
 intents.presences = True
 intents.message_content = True

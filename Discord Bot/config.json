@@ -2,5 +2,7 @@
     "testing": {
         "watch-channel": 1320581481772486768
     },
-    "intents-permissions-integer": 563914173963328
+    "intents-permissions-integer": 563914173963328,
+    "default-region-code": "na1",
+    "default-region": "americas"
 }
