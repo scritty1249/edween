@@ -8,5 +8,5 @@ client = discord.Client()
 @client.event
 async def on_message(message):
     if message == command:
-        ...
+        print("Hello, World")
 client.run(token)
