@@ -8,7 +8,7 @@ def main():
     test_acct_info(name, tag, region)
 
 def test_acct_info(game_name, tag_line, region_code ):
-    configs = file.getConfig()
+    configs = file.get_config()
     if not game_name:
         game_name = input("Summoner Name: ").casefold().strip()
     elif not tag_line:
@@ -18,7 +18,7 @@ def test_acct_info(game_name, tag_line, region_code ):
         region_code = tag_line
     else:
         region_code = configs["default-region-code"] if "default-region-code" in configs.keys() else None
-    riot_key = file.getRiotKey()
+    riot_key = file.get_riot_key()
     host = configs["routing_values"][region_code.upper()]
     print(get_PUUID(riot_key, host, game_name, tag_line))
 

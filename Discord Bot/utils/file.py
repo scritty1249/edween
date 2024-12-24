@@ -8,7 +8,7 @@ TOKEN_KEY_FILE_FIELDS = {
     "riot": "RIOT_API_KEY",
 }
 
-def validateTokenKeyFile(target_path = path.join(CWD, "token-keys.json")) -> None:
+def validate_token_key_file(target_path = path.join(CWD, "token-keys.json")) -> None:
     """Validates the token-key file at a given path
 
     Args:
@@ -27,7 +27,7 @@ def validateTokenKeyFile(target_path = path.join(CWD, "token-keys.json")) -> Non
     else:
         raise Exception("Invalid token-key file path: \"%s\" does not exist" % target_path)
 
-def getDiscordKey(target_path = path.join(CWD, "token-keys.json")) -> str:
+def get_discord_key(target_path = path.join(CWD, "token-keys.json")) -> str:
     """Retrieves the Discord Token from the specified token-key file
 
     Args:
@@ -36,11 +36,11 @@ def getDiscordKey(target_path = path.join(CWD, "token-keys.json")) -> str:
     Returns:
         str: Discord Token from the specified file.
     """
-    validateTokenKeyFile(target_path)
+    validate_token_key_file(target_path)
     with open(target_path) as tokenFile:
         return json.load(tokenFile)[TOKEN_KEY_FILE_FIELDS["discord"]]
     
-def getRiotKey(target_path = path.join(CWD, "token-keys.json")) -> str:
+def get_riot_key(target_path = path.join(CWD, "token-keys.json")) -> str:
     """Retrieves the Riot API Key from the specified token-key file
 
     Args:
@@ -49,11 +49,11 @@ def getRiotKey(target_path = path.join(CWD, "token-keys.json")) -> str:
     Returns:
         str: Riot API key from the specified file.
     """
-    validateTokenKeyFile(target_path)
+    validate_token_key_file(target_path)
     with open(target_path) as tokenFile:
         return json.load(tokenFile)[TOKEN_KEY_FILE_FIELDS["riot"]]
     
-def getConfig(target_path = path.join(CWD, "Discord Bot", "config.json")) -> dict:
+def get_config(target_path = path.join(CWD, "Discord Bot", "config.json")) -> dict:
     """Gets the configuration file variables.
 
     Args:
