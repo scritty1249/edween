@@ -8,6 +8,18 @@ TOKEN_KEY_FILE_FIELDS = {
     "riot": "RIOT_API_KEY",
 }
 
+def validate_file(target_path: str) -> None:
+    """Validates that a file exists at the given path.
+
+    Args:
+        target_path (str): Path to the file to verify.
+
+    Raises:
+        Exception: Invalid file path, file does not exist.
+    """
+    if not path.exists(target_path):
+        raise Exception("Invalid file path: \"%s\" does not exist" % target_path)
+
 def validate_token_key_file(target_path = path.join(CWD, "token-keys.json")) -> None:
     """Validates the token-key file at a given path
 
@@ -19,13 +31,14 @@ def validate_token_key_file(target_path = path.join(CWD, "token-keys.json")) -> 
         Exception: Invalid token-key file path, file does not exist.
     """    
     fields = set(TOKEN_KEY_FILE_FIELDS.values())
-    if path.exists(target_path):
-        with open(target_path) as tokenFile:
-            tokenFileKeys = json.load(tokenFile).keys()
-            if set(tokenFileKeys) != fields:
-                raise Exception("Invalid token-key file: One or more mismatching fields from \"%s\"" % "\", \"".join(tokenFileKeys))
-    else:
+    try:
+        validate_file(target_path)
+    except Exception as e:
         raise Exception("Invalid token-key file path: \"%s\" does not exist" % target_path)
+    with open(target_path) as tokenFile:
+        tokenFileKeys = json.load(tokenFile).keys()
+        if set(tokenFileKeys) != fields:
+            raise Exception("Invalid token-key file: One or more mismatching fields from \"%s\"" % "\", \"".join(tokenFileKeys))        
 
 def get_discord_key(target_path = path.join(CWD, "token-keys.json")) -> str:
     """Retrieves the Discord Token from the specified token-key file
@@ -59,14 +72,9 @@ def get_config(target_path = path.join(CWD, "Discord Bot", "config.json")) -> di
     Args:
         target_path (str, optional): Path to configuration JSON file. Defaults to "/Discord Bot/config.json".
 
-    Raises:
-        Exception: Invalid file path, file does not exist.
-
     Returns:
         dict: A JSON object representing the configuration file.
     """
-    if path.exists(target_path):
-        with open(target_path) as configFile:
-            return json.load(configFile)
-    else:
-        raise Exception("Invalid token-key file path: \"%s\" does not exist" % target_path)
+    validate_file(target_path)
+    with open(target_path) as configFile:
+        return json.load(configFile)

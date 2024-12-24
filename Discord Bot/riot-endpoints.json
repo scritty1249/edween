@@ -1,0 +1,76 @@
+{
+    "default-region-code": "na1",
+    "default-region": "americas",
+    "platform_routing_values" : {
+        "br1":  "br1.api.riotgames.com",
+        "eun1": "eun1.api.riotgames.com",
+        "euw1": "euw1.api.riotgames.com",
+        "jp1":	"jp1.api.riotgames.com",
+        "kr":	"kr.api.riotgames.com",
+        "la1":	"la1.api.riotgames.com",
+        "la2":	"la2.api.riotgames.com",
+        "na1":	"na1.api.riotgames.com",
+        "oc1":	"oc1.api.riotgames.com",
+        "tr1":	"tr1.api.riotgames.com",
+        "ru":	"ru.api.riotgames.com",
+        "ph2":	"ph2.api.riotgames.com",
+        "sg2":	"sg2.api.riotgames.com",
+        "th2":	"th2.api.riotgames.com",
+        "tw2":	"tw2.api.riotgames.com",
+        "vn2":	"vn2.api.riotgames.com"
+    },
+    "region_routing_values": {
+        "americas": "americas.api.riotgames.com",
+        "asia": "asia.api.riotgames.com",
+        "europe": "europe.api.riotgames.com",
+        "sea": "sea.api.riotgames.com"
+    },
+    "platform-region": {
+        "br1":  "americas",
+        "eun1": "europe",
+        "euw1": "europe",
+        "jp1":	"asia",
+        "kr":	"asia",
+        "la1":	"americas",
+        "la2":	"americas",
+        "na1":	"americas",
+        "oc1":	"sea",
+        "tr1":	"europe",
+        "ru":	"europe",
+        "ph2":	"sea",
+        "sg2":	"sea",
+        "th2":	"sea",
+        "tw2":	"sea",
+        "vn2":	"sea"
+    },
+    "version": {
+        "riot": {
+            "account": 1
+        },
+        "lol": {
+            "champion-mastery": 4,
+            "league-exp": 4,
+            "league": 4,
+            "challenges": 1,
+            "status": 4,
+            "match": 5,
+            "spectator": 5,
+            "summoner": 4
+        }
+    },
+    "routing_value": {
+        "riot": {
+            "account": "region"
+        },
+        "lol": {
+            "champion-mastery": "platform",
+            "league-exp": "platform",
+            "league": "platform",
+            "challenges": "platform",
+            "status": "platform",
+            "match": "region",
+            "spectator": "platform",
+            "summoner": "platform"
+        }
+    }
+}
