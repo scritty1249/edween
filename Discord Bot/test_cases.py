@@ -1,5 +1,5 @@
 from utils import file
-from riot_utils.account_info import get_PUUID
+from riotlib.account_info import get_PUUID
 
 def main():
     name = input("Summoner Name: ").strip()
