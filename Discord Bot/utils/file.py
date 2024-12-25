@@ -78,3 +78,16 @@ def get_config(target_path = path.join(CWD, "Discord Bot", "config.json")) -> di
     validate_file(target_path)
     with open(target_path) as configFile:
         return json.load(configFile)
+    
+def get_dev_puuid(target_path = path.join(CWD, "Discord Bot", "dev-puuid.json")) -> dict:
+    """Gets the PUUID for Edween Devs file variables.
+
+    Args:
+        target_path (str, optional): Path to Dev PUUID JSON file. Defaults to "/Discord Bot/dev-puuid.json".
+
+    Returns:
+        dict: A JSON object representing the dev-puuid file.
+    """
+    validate_file(target_path)
+    with open(target_path) as dev_puuid:
+        return json.load(dev_puuid)

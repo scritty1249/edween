@@ -8,6 +8,7 @@ import random
 
 command = "something"
 configs = file.get_config()
+
 # [!] Testing, remove on deploy
 testing_configs = configs["testing"] if "testing" in configs.keys() else None
 
@@ -33,9 +34,8 @@ async def get_summoner(ctx, *args):
     puuid = riot_requests.get_summoner_puuid_by_name(summoner_name, tagline)
     summoner_data = riot_requests.get_raw_summoner_data(puuid)
     icon_img_url = riot_requests.get_image_asset("profileicon", "%s.png" % summoner_data["profileIconId"])
-    await messages.send_profile_card(ctx, icon_img_url, summoner_name, tagline, summoner_data)
+    await messages.send_profile_card(puuid, ctx, icon_img_url, summoner_name, tagline, summoner_data)
     print("Response to \"%s\" sent successfully" % ctx.message.content)
-    await ctx.send("I got the %s!" % third_party_db.pick_random_name())
 
 @bot.command(name="roast")
 async def run(ctx, *args):
