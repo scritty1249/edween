@@ -11,10 +11,11 @@ import requests
 import json
 
 # riotlib modules
-from exceptions import *
-from dtos import *
+from riotlib.exceptions import *
+from riotlib.dtos import *
 
 # getting values from config file
+API_KEY = ""
 ENDPOINTS = {}
 if __name__ == "__main__":
     from os.path import exists
@@ -25,13 +26,15 @@ if __name__ == "__main__":
         with open(endpoint_file_path) as f:
             ENDPOINTS = json.load(f)
 
-def init_endpoints(endpoint_file_path: str = path.join(path.dirname(path.abspath(__file__)), "..", "riot-endpoints.json")) -> None:
+def init_endpoints(api_key: str, endpoint_file_path: str = path.join(path.dirname(path.abspath(__file__)), "..", "riot-endpoints.json")) -> None:
     """Initializes library functions using the Riot API. This function must be called before using any other functions from the library.
 
     Args:
         target_path (str, optional): Path to the file containing Riot API endpoints. Defaults to "riot-endpoints.json".
     """
+    global API_KEY
     global ENDPOINTS
+    API_KEY = api_key
     with open(endpoint_file_path) as f:
         ENDPOINTS = json.load(f)
 
@@ -133,12 +136,11 @@ def send_request(url: str, headers: dict = None, query_params: dict = None, meth
         return requests.get(url = url, params = query_params, headers = headers)
 
 # getting data directly from riot api
-def get_raw_match(match_id: str, api_key: str) -> dict:
+def get_raw_match(match_id: str) -> dict:
     """Get a League match with the specified ID.
 
     Args:
         match_id (str): The ID of the match to retrieve.
-        api_key (str): A Riot API key.
 
     Raises:
         NotFoundException: A Match with the gien match_id does not exist.
@@ -147,51 +149,75 @@ def get_raw_match(match_id: str, api_key: str) -> dict:
         dict: A JSON body representing a Riot API MatchDto Object.
     """
     url = construct_request("lol", "match", "matches/%s" % match_id)
-    headers = construct_headers(api_key)
+    headers = construct_headers(API_KEY)
     response = send_request(url, headers)
     assert_response_status(response.status_code)
     return json.loads(response.content)
 
-def get_raw_match_timeline(match_id: str, api_key: str) -> dict:
+def get_raw_match_timeline(match_id: str) -> dict:
     """Get a League match timeline with the specified ID.
 
     Args:
         match_id (str): The ID of the match to retrieve.
-        api_key (str): A Riot API key.
 
     Returns:
         dict: A JSON body representing a Riot API TimelineDto Object.
     """
     url = construct_request("lol", "match", "matches/%s/timeline" % match_id)
-    headers = construct_headers(api_key)
+    headers = construct_headers(API_KEY)
     response = send_request(url, headers)
     assert_response_status(response.status_code)
-    return json.loads(response.content)
+    return                      
 
-def get_raw_summoner_data(puuid: str, api_key: str) -> dict:
+def get_raw_summoner_data(puuid: str) -> dict:
     """Get a summoner with the specified PUUID.
 
     Args:
         puuid (str): The PUUID of the summoner to retrieve.
-        api_key (str): A Riot API key.
 
     Returns:
         dict: A JSON body representing a Riot API SummonerDTO Object.
     """
     url = construct_request("lol", "summoner", "summoners/by-puuid/%s" % puuid)
-    headers = construct_headers(api_key)
+    headers = construct_headers(API_KEY)
     response = send_request(url, headers)
     assert_response_status(response.status_code)
     return json.loads(response.content)
 
+def get_raw_summoner_masteries(puuid: str) -> dict:
+    url = construct_request("lol", "champion-mastery", "champion-masteries/by-puuid/%s" % puuid)
+    headers = construct_headers(API_KEY)
+    response = send_request(url, headers)
+    assert_response_status(response.status_code)
+    return json.loads(response.content)
+
+def get_raw_active_game(puuid: str) -> dict:
+    url = construct_request("lol", "spectator", "active-games/by-summoner/%s" % puuid)
+    headers = construct_headers(API_KEY)
+    response = send_request(url, headers)
+    assert_response_status(response.status_code)
+    return json.loads(response.content)
+
+# getting data from Data Dragon
+def get_image_asset(category: str, full: str) -> str:
+    """Gets the link to an asset from Riot's Data Dragon.
+
+    Args:
+        category (str): The asset category
+        full (str): The full name of the asset.
+
+    Returns:
+        str: The link to the asset.
+    """
+    return "https://%s/cdn/%s/img/%s/%s" % (ENDPOINTS["ddragon_endpoint"], ENDPOINTS["ddragon_version"], category, full)
+
 # handling data, or returning anything from api that isn't the raw response
-def get_summoner_puuid_by_name(name: str, tag: str, api_key: str) -> str:
+def get_summoner_puuid_by_name(name: str, tag: str) -> str:
     """Retrieve a player's puuid from their League summoner name and tag.
 
     Args:
         name (str): The summoner name of the player.
         tag (str): The tag line of the player (after the hashtag).
-        api_key (str): A Riot API key.
 
     Returns:
         str: The puuid of a player with the matching name and tag.
@@ -207,25 +233,24 @@ def get_summoner_puuid_by_name(name: str, tag: str, api_key: str) -> str:
                 quote_plus(tag)
             ),
     )
-    headers = construct_headers(api_key)
+    headers = construct_headers(API_KEY)
     response = send_request(url, headers)
     assert_response_status(response.status_code)
     AccountDto = json.loads(response.content)
     # reference for AccountDto: https://developer.riotgames.com/apis#account-v1/GET_getByRiotId
     return AccountDto["puuid"]
 
-def get_summoner_name_by_puuid(puuid: str, api_key: str) -> list[str, str]:
+def get_summoner_name_by_puuid(puuid: str) -> list[str, str]:
     """Retrieve the League summoner name and tag of a player with the given puuid.
 
     Args:
         puuid (str): The puuid of the player to retrieve.
-        api_key (str): A Riot API key.
 
     Returns:
         list[str, str]: The summoner name, and tag of a player with the matching puuid.
     """
     url = construct_request("riot", "account", "accounts/by-puuid/%s" % puuid)
-    headers = construct_headers(api_key)
+    headers = construct_headers(API_KEY)
     response = send_request(url, headers)
     assert_response_status(response.status_code)
     # reference for AccountDto: https://developer.riotgames.com/apis#account-v1/GET_getByPuuid

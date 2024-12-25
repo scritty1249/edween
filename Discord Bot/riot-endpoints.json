@@ -43,6 +43,8 @@
         "tw2":	"sea",
         "vn2":	"sea"
     },
+    "ddragon_endpoint": "ddragon.leagueoflegends.com",
+    "ddragon_version": "14.24.1",
     "version": {
         "riot": {
             "account": 1
